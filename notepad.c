@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <gtksourceview/gtksource.h>
 #include <stdio.h>
 
 typedef struct {
@@ -27,7 +28,8 @@ static void activate(GtkApplication *app, gpointer user_data) {
   gtk_window_set_title(GTK_WINDOW(window), "minimal notepad");
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 600); 
 
-  text_view = gtk_text_view_new();
+  text_view = gtk_source_view_new();
+  gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(text_view), TRUE);
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 

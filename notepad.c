@@ -13,7 +13,6 @@ static void activate(GtkApplication *app, gpointer user_data) {
 
   AppWidgets *app_widgets;
 
-
   GtkWidget *window; 
   GtkWidget *text_view;
   GtkWidget *scroll;
@@ -21,6 +20,12 @@ static void activate(GtkApplication *app, gpointer user_data) {
   GtkWidget *button_box;
   GtkWidget *save_button;
   GtkWidget *open_button;
+  GtkSettings *settings;
+  GtkSourceBuffer *buffer;
+  GtkSourceStyleSchemeManager *scheme_manager;
+  GtkSourceStyleScheme *scheme;
+  GtkSourceLanguageManager *language_manager;
+  GtkSourceLanguage *language;
 
   app_widgets = g_malloc(sizeof(AppWidgets));
 
@@ -28,8 +33,29 @@ static void activate(GtkApplication *app, gpointer user_data) {
   gtk_window_set_title(GTK_WINDOW(window), "minimal notepad");
   gtk_window_set_default_size(GTK_WINDOW(window), 800, 600); 
 
+  settings = gtk_settings_get_default();
+
+  if (settings != NULL) {
+    g_object_set(settings, "gtk-application-prefer-dark-theme", TRUE, NULL);
+  }
+
   text_view = gtk_source_view_new();
+  gtk_text_view_set_monospace(GTK_TEXT_VIEW(text_view), TRUE);
   gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(text_view), TRUE);
+  buffer = GTK_SOURCE_BUFFER(
+    gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view))
+  );
+  language_manager = gtk_source_language_manager_get_default();
+  language = gtk_source_language_manager_get_language(language_manager, "c");
+  if (language != NULL) {
+    gtk_source_buffer_set_language(buffer, language);
+  }
+  gtk_source_buffer_set_highlight_syntax(buffer, TRUE);
+  scheme_manager = gtk_source_style_scheme_manager_get_default();
+scheme = gtk_source_style_scheme_manager_get_scheme(scheme_manager, "Adwaita-dark");
+if (scheme != NULL) {
+  gtk_source_buffer_set_style_scheme(buffer, scheme);
+}
   box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
   button_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
 

@@ -78,6 +78,9 @@ static void activate(GtkApplication *app, gpointer user_data) {
   save_button = gtk_button_new_with_label("Save");
 
   g_signal_connect(save_button, "clicked", G_CALLBACK(save_clicked), app_state);
+  if (!vim_init(app_state)) {
+    g_printerr("Failed to initialize libvim\n");
+  }
   gtk_box_append(GTK_BOX(button_box), open_button);
   gtk_box_append(GTK_BOX(button_box), save_button);
 

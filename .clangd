@@ -1,5 +1,6 @@
 CompileFlags:
   Add:
+    - -DHAVE_CONFIG_H
     - -I/usr/include/gtksourceview-5
     - -I/usr/include/gtk-4.0
     - -I/usr/include/pango-1.0
@@ -18,4 +19,7 @@ CompileFlags:
     - -I/usr/include/libmount
     - -I/usr/include/blkid
     - -I/usr/include/sysprof-6
+    - -Ithird_party/libvim/src
+    - -Ithird_party/libvim/src/auto
+    - -Ithird_party/libvim/src/proto
     - -pthread
